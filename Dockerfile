@@ -27,14 +27,9 @@
 # Comando para ejecutar FastAPI con Uvicorn
 #CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
-FROM public.ecr.aws/lambda/python:3.11
-
-# Instala dependencias
+FROM public.ecr.aws/lambda/python:3.9
+WORKDIR /var/task
 COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-# Copia tu código
-COPY app/ ./app
-
-# Define el handler para Lambda
+RUN pip install -r requirements.txt --target .
+COPY . .
 CMD ["lambda_handler.handler"]
